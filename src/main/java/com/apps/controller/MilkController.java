@@ -1,22 +1,27 @@
 package com.apps.controller;
 
+import com.apps.model.Milk;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
 
 @RestController
+@RequestMapping("/api/milk")
 public class MilkController {
 
-    @GetMapping("/")
-    public ResponseEntity<String> welcome() {
-        return new ResponseEntity<>("have a nice day...!!!", HttpStatus.OK);
+    private final List<Milk> milkList = new ArrayList<>();
+
+    @PostMapping("/g2")
+    public ResponseEntity<String> addMilk(@Valid @RequestBody Milk milk) {
+        milkList.add(milk);
+        return new ResponseEntity<>("Milk added successfully", HttpStatus.CREATED);
     }
 
-    @GetMapping("/greetings")
-    public ResponseEntity<String> greet() {
-        return new ResponseEntity<>("greeting message...!!!", HttpStatus.OK);
+    @GetMapping("/g1")
+    public ResponseEntity<List<Milk>> getAllMilk() {
+        return new ResponseEntity<>(milkList, HttpStatus.OK);
     }
-
-
-}// class loop end.
+}
